@@ -5,6 +5,7 @@ public class FractionImpl implements Fraction {
     private int numerator;
     private int denominator;
 
+
     /**
      * Parameters are the <em>numerator</em> and the <em>denominator</em>.
      * Normalize the fraction as you create it.
@@ -18,6 +19,16 @@ public class FractionImpl implements Fraction {
      */
 
     public FractionImpl(int numerator, int denominator) {
+        this.denominator = denominator;
+        this.numerator = numerator;
+        try
+            {
+                System.out.println( numerator + " / " + denominator + " = " + (numerator/denominator));
+            }
+            catch( ArithmeticException exc )
+            {
+                System.out.println( "Cannot use ZERO as denominator!" );
+            }
         // TODO
     }
 
@@ -138,7 +149,9 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public String toString() {
-        return null;
+        int n = this.getNumerator();
+        int d = this.getDenominator();
+        return n + " / " + d;
     }
 
     private int getDenominator() {
