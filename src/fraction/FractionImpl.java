@@ -1,6 +1,10 @@
 package fraction;
 
 public class FractionImpl implements Fraction {
+
+    private int numerator;
+    private int denominator;
+
     /**
      * Parameters are the <em>numerator</em> and the <em>denominator</em>.
      * Normalize the fraction as you create it.
@@ -12,6 +16,7 @@ public class FractionImpl implements Fraction {
      * @param numerator
      * @param denominator
      */
+
     public FractionImpl(int numerator, int denominator) {
         // TODO
     }
@@ -135,4 +140,21 @@ public class FractionImpl implements Fraction {
     public String toString() {
         return null;
     }
+
+    private int getDenominator() {
+        return denominator;
+    }
+
+    private void setDenominator(int denominator) {
+        this.denominator = denominator;
+    }
+    private int getNumerator() {
+        return numerator;
+    }
+
+    private void setNumerator(int numerator) {
+        this.numerator = numerator;
+    }
+
+
 }
