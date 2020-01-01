@@ -23,7 +23,7 @@ public class FractionImpl implements Fraction {
         this.numerator = numerator;
         try
             {
-                System.out.println( numerator + " / " + denominator + " = " + (numerator/denominator));
+                System.out.println( numerator + "/" + denominator + " = " + (numerator/denominator));
             }
             catch( ArithmeticException exc )
             {
@@ -151,7 +151,8 @@ public class FractionImpl implements Fraction {
     public String toString() {
         int n = this.getNumerator();
         int d = this.getDenominator();
-        return n + " / " + d;
+        if (n <  0) return "-" + Math.abs(n) + "/" + Math.abs(d);
+        else return n + "/" + d;
     }
 
     private int getDenominator() {
