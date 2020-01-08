@@ -8,9 +8,7 @@ public class FractionImpl implements Fraction {
      * fraction is normalised
      * For instance, if the parameters are (8, -12) , create a Fraction  with numerator
      * -2 and denominator 3 .
-     *
-     * The constructor should throw an ArithmeticException  if the denominator is zero.
-     *
+     * The constructor throws an ArithmeticException  if the denominator is zero.
      * */
 
     private int numerator;
@@ -39,9 +37,8 @@ public class FractionImpl implements Fraction {
     }
 
     /**
-     * The parameter is the numerator and 1  is the implicit denominator.
-     *
-     * @param wholeNumber representing the numerator
+     * The parameter is the numerator and 1 is the implicit denominator.
+     * parameter(s): wholeNumber representing the numerator
      * */
 
     public FractionImpl(int wholeNumber) {
@@ -56,11 +53,22 @@ public class FractionImpl implements Fraction {
      * The constructor should throw an ArithmeticException
      * if given a string representing a fraction whose denominator is zero.
      * You may find it helpful to look at the available String API methods in the Java API.
-     *
-     * @param fraction the string representation of the fraction
+     * parameter(s): fraction the string representation of the fraction
      * */
 
     public FractionImpl(String fraction) {
+        String[] arrOfStr = (fraction.replaceAll("\\s", "")).split("/");
+        if (arrOfStr.length > 1){
+            int n = Integer.parseInt(arrOfStr[0]);
+            int d = Integer.parseInt(arrOfStr[1]);
+            int gcd = findGCD(n, d);
+            this.numerator = n / gcd;
+            this.denominator = d / gcd;
+        }
+        else {
+            this.numerator = Integer.parseInt(arrOfStr[0]);
+            this.denominator = 1;
+        }
 
 //        if (denominator == 0) throw new NumberFormatException;
         // TODO
@@ -132,8 +140,7 @@ public class FractionImpl implements Fraction {
     /**
      * Returns true if o is a Fraction equal to this,
      * and false in all other cases.
-     *
-     * @param o the object to compare this one to
+     * parameter(s): o the object to compare this one to
      * @return whether the true fractions are equal
      */
     @Override
@@ -205,8 +212,8 @@ public class FractionImpl implements Fraction {
      * A negative int if this is less than o.
      * Zero if this is equal to o.
      * positive int if this is greater than o.
-     **
-     * @param f the fraction to compare this to
+
+     * parameter(s): f the fraction to compare this to
      * @return the result of the comparison
      * */
 
@@ -257,8 +264,7 @@ public class FractionImpl implements Fraction {
      * Returns: void / throws exceptions
      * ArithmeticException if x is 1 (0 used as denominator to initialise Fraction)
      * NumberFormatException if x 0 (wrong format of string passed to initialise Fraction)
-     *
-     * @param x int
+     * parameter(s): x int
      *
      * */
 
