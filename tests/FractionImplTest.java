@@ -1,9 +1,8 @@
-package tests;
-
 import fraction.FractionImpl;
-import org.junit.jupiter.api.Test;
 
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+
 
 class FractionImplTest {
 
@@ -27,7 +26,6 @@ class FractionImplTest {
     FractionImpl test_fraction_2f = new FractionImpl(" -2 / 4");
     FractionImpl test_fraction_4a = new FractionImpl(" 1 9 / 6 ");
     private Object String;
-//    FractionImpl test_fraction_6a = new FractionImpl(8,-3);
 
 
     @Test
@@ -49,6 +47,7 @@ class FractionImplTest {
 
     }
 
+
     @Test
     void allowsVariousTypes() {
         assertEquals(test_fraction_6, test_fraction_6a,  "Whole number as int not accepted");
@@ -58,6 +57,7 @@ class FractionImplTest {
         assertEquals(test_fraction_2c, test_fraction_2e,  "Negative string fraction white spaces not accepted");
         assertEquals(test_fraction_4, test_fraction_4a, "Positive string white spaces not accepted");
     }
+
 
     @Test
     void add() {
