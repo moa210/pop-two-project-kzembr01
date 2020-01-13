@@ -1,6 +1,6 @@
 import fraction.FractionImpl;
-
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -48,22 +48,22 @@ class FractionImplTest {
         Exception thrown_4 = assertThrows(
                 IllegalArgumentException.class,
                 () -> new FractionImpl(" 13 /2 / 1 "));
-        assertEquals("Cannot use this string format!", thrown_4.getMessage());
+        assertEquals("Cannot use this format!", thrown_4.getMessage());
 
         Exception thrown_5 = assertThrows(
                 IllegalArgumentException.class,
                 () -> new FractionImpl("-13,2 /1 "));
-        assertEquals("Cannot use this string format!", thrown_5.getMessage());
+        assertEquals("Cannot use this format!", thrown_5.getMessage());
 
         Exception thrown_6 = assertThrows(
                 IllegalArgumentException.class,
                 () -> new FractionImpl("-132, "));
-        assertEquals("Cannot use this string format!", thrown_6.getMessage());
+        assertEquals("Cannot use this format!", thrown_6.getMessage());
 
         Exception thrown_7 = assertThrows(
                 IllegalArgumentException.class,
                 () -> new FractionImpl("s132/13 "));
-        assertEquals("Cannot use this string format!", thrown_7.getMessage());
+        assertEquals("Cannot use this format!", thrown_7.getMessage());
 
     }
 
@@ -102,11 +102,13 @@ class FractionImplTest {
         FractionImpl sub_3 = (FractionImpl) test_fraction_3.subtract(test_fraction_2a);
         FractionImpl sub_4 = (FractionImpl) test_fraction_2a.subtract(test_fraction_1a);
         FractionImpl sub_5 = (FractionImpl) test_fraction_1a.subtract(test_fraction_3);
+        FractionImpl sub_6 = (FractionImpl) test_fraction_3a.subtract(test_fraction_2);
 
         assertEquals(test_fraction_3, sub_1, "Test for subtraction1 failed when result positive") ;
         assertEquals(test_fraction_3a, sub_2, "Test for subtraction2 failed when result negative");
         assertEquals(test_fraction_1, sub_3, "Test for subtraction negative from positive failed");
         assertEquals(test_fraction_3, sub_4, "Test for subtraction negative from negative failed");
+        assertEquals(new FractionImpl(16,6), sub_6,"Test for positive from negative");
         assertEquals(new FractionImpl(-29,-6), sub_5, "Test for subtraction positive from negative failed");
     }
 

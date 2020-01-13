@@ -264,7 +264,7 @@ public class FractionImpl implements Fraction {
      */
     private void throwException(int x) {
         //      check argument's value and throw exceptions accordingly
-        if (x == 0) throw new NumberFormatException("Cannot use this string format!");
+        if (x == 0) throw new NumberFormatException("Cannot use this format!");
         else if (x == 1) throw new ArithmeticException("Cannot use ZERO as denominator!");
         else if (x == 2) throw new IllegalArgumentException("Wrong argument passed to the method");
     }
