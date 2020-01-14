@@ -3,9 +3,9 @@ import fraction.FractionImpl;
 import java.util.Scanner;
 
 /*
-    class Main uses the Fraction implementation to perform simple calculations as directed by the user
-    Main invokes the super-class constructors
- */
+*  class Main uses the Fraction implementation to perform simple calculations as directed by the user
+*  class Main invokes the super-class constructors
+*/
 
 
 class Main extends FractionImpl{
@@ -23,7 +23,7 @@ class Main extends FractionImpl{
     }
 
 
-//  void main class used as interface of the programme
+//  void main class used as interface of the programme FractionImpl
     public static void main(String[] args){
         Scanner myObj = new Scanner(System.in);  // Create a Scanner object
         System.out.print("What's the fraction you'd like to start with: ");
@@ -40,8 +40,8 @@ class Main extends FractionImpl{
         String fractionQuestion =  "And your new fraction? ";
         String resultStr = " (this fraction is used for your next operation)";
 
-//        loops operation based on user input; finishes on 'end' or when exception is thrown (i.e. ZERO passed as denominator)
-//        actions based on operation's parameter as instructed by user - tested via switch statement against math operators
+        //  loops operation based on user input; finishes on 'end' or when exception is thrown (i.e. ZERO passed as denominator)
+        //  actions based on operation's parameter as instructed by the user - tested via switch statement against input/ chosen math operators
         while (!method.equals("end")) {
             switch (method) {
                 case "-":
@@ -114,11 +114,10 @@ class Main extends FractionImpl{
                     }
                     break;
                 default:
-                    System.out.print("That fraction will be used BUT you gave a wrong operator; use: - / * + or 'end' ");
+                    System.out.print("That fraction will be used * BUT * you gave a wrong operator; use: - / * + or 'end' ");
                     method = myObj.nextLine();
                     break;
             }
-
         }
     }
 

@@ -4,17 +4,13 @@ public class FractionImpl implements Fraction {
 
     private int numerator;
     private int denominator;
-    private int wholeNumber;
-    String fraction;
 
 
-    /*
-     * @inheritDoc
-     */
     public FractionImpl(int numerator, int denominator) {
         //      check for precondition
         if (denominator == 0) throwException(1);
-        //      normalize and create at positive and negative argument's values
+
+        //      normalize and create fraction when positive or negative parameter's values
         else {
             int gcd = findGCD(numerator, denominator);
             if (denominator < 0 && numerator < 0) {
@@ -44,21 +40,26 @@ public class FractionImpl implements Fraction {
         //      format the argument's string to allow obtaining numerator and denominator values
         String[] arrOfStr = (fraction.replaceAll("\\s", "")).split("/");
 
-        //      check if whole number fraction or two values are passed in the string
-        //      if string format different that than expected throws NumberFormatException
+        //      check if whole number or whether two values are passed in the string
+        //      if string format different than expected throws NumberFormatException
         if (arrOfStr.length > 2 || !String.join("", arrOfStr).matches("[-]?[0-9]+[0-9]*([-]?[0-9]+[0-9]*)*")) {
             throwException(0);
         }
         else if (arrOfStr.length > 1){
-        //          obtain integer values and check there is no ZERO value set as a denominator
-            int n = Integer.parseInt(arrOfStr[0]);
-            int d = Integer.parseInt(arrOfStr[1]);
-            if (d == 0) throwException(1);
-        //          normalize and create when two correct values
-            else {
-                int gcd = findGCD(n, d);
-                this.numerator = n / gcd;
-                this.denominator = d / gcd;
+        //          obtain integer values and check there is no ZERO value set as a denominator, throw exception message of wrong parameter passed
+            try {
+                int n = Integer.parseInt(arrOfStr[0]);
+                int d = Integer.parseInt(arrOfStr[1]);
+                if (d == 0) throwException(1);
+                //          normalize and create when two correct values - catch exception
+                else {
+                    int gcd = findGCD(n, d);
+                    this.numerator = n / gcd;
+                    this.denominator = d / gcd;
+                }
+            }
+            catch (NumberFormatException e){
+                throwException(3);
             }
         }
         //      create a fraction if whole number only
@@ -171,10 +172,8 @@ public class FractionImpl implements Fraction {
 
 
     /*
-     * returns: int which is the greatest common divisor of two fractions
+     * returns: integer; the greatest common divisor of two fractions
      * parameters: takes two int's (numerator and denominator)
-     * num1 = num1 % num2
-     * if one of the numbers = zero, the other number = GCD
      */
     private int findGCD(int a, int b) {
         //      initiate variables as absolute values
@@ -188,9 +187,8 @@ public class FractionImpl implements Fraction {
 
 
     /*
-     * returns: int as a positive value which is the lowest common multiplier (lcm for two fractions)
-     * parameters: takes two int's (denominator a and denominator b)
-     * lcm = a*b / greatest common denominator
+     * returns: int as a positive value; the lowest common multiplier (lcm for two fractions)
+     * parameters: takes two integers (denominator a and denominator b)
      */
     private int findLCM(int a, int b) {
         //      method uses finding cgd method to find the lowest common multiplier
@@ -256,17 +254,17 @@ public class FractionImpl implements Fraction {
 
 
     /*
-     * Returns: void / throws exceptions
-     * parameter(s): x int
-     * ArithmeticException if x is 1 (0 used as denominator to initialise Fraction)
-     * NumberFormatException if x 0 (wrong format of string passed when initialising object)
-     * IllegalArgumentException if x 2 (argument different than expected in methods)
+     * Returns: void / throws exceptions, parameter(s): x int
+     * ArithmeticException if x is 1
+     * NumberFormatException if x 0 or 3
+     * IllegalArgumentException if x 2
      */
     private void throwException(int x) {
-        //      check argument's value and throw exceptions accordingly
+        //  check argument's value and throw exceptions accordingly
         if (x == 0) throw new NumberFormatException("Cannot use this format!");
         else if (x == 1) throw new ArithmeticException("Cannot use ZERO as denominator!");
         else if (x == 2) throw new IllegalArgumentException("Wrong argument passed to the method");
+        else if (x == 3) throw new NumberFormatException("Wrong format passed for your fraction - unable to continue");
     }
 
 
@@ -276,7 +274,9 @@ public class FractionImpl implements Fraction {
     }
 
 
-    // no return; sets value of the denominator as an  integer
+    /* void - no return, params int denominator
+     *  sets value of the denominator as an  integer
+     */
     private void setDenominator(int denominator) {
         this.denominator = denominator;
     }
@@ -288,7 +288,9 @@ public class FractionImpl implements Fraction {
     }
 
 
-    // no return; sets value of the numerator as an  integer
+    /* void - no return, params int numerator
+     * sets value of the numerator as an  integer
+    */
     private void setNumerator(int numerator) {
         this.numerator = numerator;
     }

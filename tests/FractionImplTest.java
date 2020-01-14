@@ -25,7 +25,6 @@ class FractionImplTest {
     FractionImpl test_fraction_2e = new FractionImpl(" - 2 / -4");
     FractionImpl test_fraction_2f = new FractionImpl(" -2 / 4");
     FractionImpl test_fraction_4a = new FractionImpl(" 1 9 / 6 ");
-    private Object String;
 
 
     @Test
@@ -37,7 +36,7 @@ class FractionImplTest {
 
         Exception thrown_2 = assertThrows(
                 IllegalArgumentException.class,
-                () -> test_fraction_1.equals(new String("13/3")));
+                () -> test_fraction_1.equals("13/3"));
         assertEquals("Wrong argument passed to the method", thrown_2.getMessage());
 
         Exception thrown_3 = assertThrows(
@@ -64,6 +63,11 @@ class FractionImplTest {
                 IllegalArgumentException.class,
                 () -> new FractionImpl("s132/13 "));
         assertEquals("Cannot use this format!", thrown_7.getMessage());
+
+        Exception thrown_8 = assertThrows(
+                NumberFormatException.class,
+                () -> new FractionImpl("132-/13 "));
+        assertEquals("Wrong format passed for your fraction - unable to continue", thrown_8.getMessage());
 
     }
 
@@ -97,19 +101,21 @@ class FractionImplTest {
 
     @Test
     void subtract() {
-        FractionImpl sub_1 = (FractionImpl) test_fraction_1.subtract(test_fraction_2);
+        FractionImpl sub_1 = (FractionImpl) test_fraction_1.subtract(test_fraction_2); //
         FractionImpl sub_2 = (FractionImpl) test_fraction_2.subtract(test_fraction_1);
         FractionImpl sub_3 = (FractionImpl) test_fraction_3.subtract(test_fraction_2a);
         FractionImpl sub_4 = (FractionImpl) test_fraction_2a.subtract(test_fraction_1a);
         FractionImpl sub_5 = (FractionImpl) test_fraction_1a.subtract(test_fraction_3);
         FractionImpl sub_6 = (FractionImpl) test_fraction_3a.subtract(test_fraction_2);
+        FractionImpl sub_7 = (FractionImpl) test_fraction_2c.subtract(test_fraction_2c);
 
-        assertEquals(test_fraction_3, sub_1, "Test for subtraction1 failed when result positive") ;
-        assertEquals(test_fraction_3a, sub_2, "Test for subtraction2 failed when result negative");
-        assertEquals(test_fraction_1, sub_3, "Test for subtraction negative from positive failed");
-        assertEquals(test_fraction_3, sub_4, "Test for subtraction negative from negative failed");
-        assertEquals(new FractionImpl(16,6), sub_6,"Test for positive from negative");
-        assertEquals(new FractionImpl(-29,-6), sub_5, "Test for subtraction positive from negative failed");
+        assertEquals(test_fraction_3, sub_1, " * Test for subtraction1 failed when result positive * ") ;
+        assertEquals(test_fraction_3a, sub_2, " * Test for subtraction2 failed when result negative * ");
+        assertEquals(test_fraction_1, sub_3, " * Test for subtraction negative from positive failed * ");
+        assertEquals(test_fraction_3, sub_4, " * Test for subtraction negative from negative failed * ");
+        assertEquals(new FractionImpl(-29,-6), sub_5, " * Test for subtraction positive from negative failed * ");
+        assertEquals(new FractionImpl(-16,6), sub_6," * Test for positive from negative 2 failed * ");
+        assertEquals(new FractionImpl(0,1), sub_7," * Test for negative from negative where result equals ZERO failed * ");
     }
 
 
@@ -120,12 +126,14 @@ class FractionImplTest {
         FractionImpl mult_3 = (FractionImpl) test_fraction_3.multiply(test_fraction_2a);
         FractionImpl mult_4 = (FractionImpl) test_fraction_1a.multiply(test_fraction_2a);
         FractionImpl mult_5 = (FractionImpl) test_fraction_2a.multiply(test_fraction_1);
+        FractionImpl mult_6 = (FractionImpl) test_fraction_2c.multiply(test_fraction_2c);
 
         assertEquals(test_fraction_5, mult_1, " * Test for multiplying positives 1 failed * ");
         assertEquals(new FractionImpl(13,12), mult_2, " * Test for multiplying positives 2 failed * ");
         assertEquals(new FractionImpl(-13,-12), mult_3, " * Test for multiplying positive with negative failed * ");
         assertEquals(test_fraction_5, mult_4, " * Test for multiplying negative with negative failed * ");
         assertEquals(new FractionImpl(-4,-3), mult_5, " * Test for multiplying negative and positive failed * ");
+        assertEquals(new FractionImpl(1,4), mult_6, " * Test for multiplying same value negative failed * ");
     }
 
 
@@ -223,38 +231,7 @@ class FractionImplTest {
         String str_2 = "-8/3";
 
         assertEquals(str_1, to_str1, " * Test for to string positive failed * ");
-        assertEquals(str_2, to_str2,"Test to string negative failed");
-        assertEquals("12", test_fraction_6.toString(), "Test to string where 1 failed");
+        assertEquals(str_2, to_str2," * Test to string negative failed * ");
+        assertEquals("12", test_fraction_6.toString(), " * Test to string where 1 failed * ");
     }
-
-//    @Test
-//    void testFindGCD() {
-//        int gcd_1 = FractionImpl.findGCD(3,5);
-//        int gcd_2 = FractionImpl.findGCD(2,4);
-//        int gcd_3 = FractionImpl.findGCD(9,-3);
-//        int gcd_4 = FractionImpl.findGCD(123,45);
-//        int gcd_5 = FractionImpl.findGCD(4,44);
-//        assertEquals(1, gcd_1, "GCD not found where positive prime numbers");
-//        assertEquals(2, gcd_2, "GCD not found where positive dividable numbers");
-//        assertEquals(3, gcd_3, "GCD not found where negative dividable numbers");
-//        assertEquals(3, gcd_4, "GCD not found where positive dividable numbers");
-//        assertEquals(4, gcd_5, "GCD not found where positive dividable numbers");
-//    }
-
-//    @Test
-//    void testFindLCM() {
-//        int lcm_1 = FractionImpl.findLCM(3,5);
-//        int lcm_2 = FractionImpl.findLCM(2,4);
-//        int lcm_3 = FractionImpl.findLCM(9,-3);
-//        int lcm_4 = FractionImpl.findLCM(123,45);
-//        int lcm_5 = FractionImpl.findLCM(4,44);
-//        int lcm_6 = FractionImpl.findLCM(1,9);
-//        assertEquals(15, lcm_1, "LCM not found where positive prime numbers");
-//        assertEquals(4, lcm_2, "LCM not found where positive dividable numbers");
-//        assertEquals(9, lcm_3, "LCM not found where negative dividable numbers");
-//        assertEquals(1845, lcm_4, "LCM not found 4");
-//        assertEquals(44, lcm_5, "LCM not found 5");
-//        assertEquals(44, lcm_5, "LCM not found 6");
-//    }
-
 }
