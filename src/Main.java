@@ -43,7 +43,7 @@ class Main extends FractionImpl {
 
         final String methodQuestion = "What's your next operation? (use: - / * + < = or 'end') ";
         final String fractionQuestion = "And your new fraction? ";
-        final String resultStr = " (this fraction is used for your next operation)";
+        final String resultStr = " (result used for your next operation)";
 
         // loops operation based on user input; finishes on 'end' or when exception is thrown (i.e. ZERO passed as denominator)
         // actions based on operation's parameter as instructed by the user - tested via switch statement against input/ chosen math operators
@@ -96,7 +96,7 @@ class Main extends FractionImpl {
                 case "=":
                     boolean result = fraction.equals(fraction2);
                     if (result) System.out.println(fraction + " == " + fraction2);
-                    else System.out.println(fraction + " != " + fraction2);
+                    else System.out.println(fraction + " != " + fraction2 + resultStr);
                     System.out.print("And your next operation (use: - / * + < = or 'end')? ");
                     method = myObj.nextLine();
                     if (!method.equals("end")) {
@@ -109,7 +109,7 @@ class Main extends FractionImpl {
                     int result1 = fraction.compareTo(fraction2);
                     if (result1 < 0) System.out.println(fraction + " < " + fraction2);
                     else if (result1 > 0) System.out.println(fraction + " > " + fraction2);
-                    else System.out.println(fraction + " == " + fraction2);
+                    else System.out.println(fraction + " == " + fraction2 + resultStr);
                     System.out.print("What's your next operation (use: - / * + < = or 'end')? ");
                     method = myObj.nextLine();
                     if (!method.equals("end")) {

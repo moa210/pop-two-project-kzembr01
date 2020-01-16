@@ -1,3 +1,4 @@
+import fraction.Fraction;
 import fraction.FractionImpl;
 import org.junit.jupiter.api.Test;
 
@@ -6,26 +7,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FractionImplTest {
 
-    FractionImpl test_fraction_1 = new FractionImpl(8, 3);
-    FractionImpl test_fraction_2 = new FractionImpl(2, 4);
-    FractionImpl test_fraction_3 = new FractionImpl(13, 6);
-    FractionImpl test_fraction_3a = new FractionImpl(-13, -6);
-    FractionImpl test_fraction_4 = new FractionImpl(19, 6);
-    FractionImpl test_fraction_5 = new FractionImpl(4, 3);
-    FractionImpl test_fraction_1a = new FractionImpl(-8, -3);
-    FractionImpl test_fraction_2a = new FractionImpl(-2, -4);
-    FractionImpl test_fraction_2b = new FractionImpl(1, 2);
-    FractionImpl test_fraction_6 = new FractionImpl(12, 1);
-    FractionImpl test_fraction_7 = new FractionImpl(0, 1);
-    FractionImpl test_fraction_2c = new FractionImpl(-1, 2);
-    FractionImpl test_fraction_6a = new FractionImpl(12);
-    FractionImpl test_fraction_6b = new FractionImpl("12");
-    FractionImpl test_fraction_2d = new FractionImpl("2/4");
-    FractionImpl test_fraction_7a = new FractionImpl(0);
-    FractionImpl test_fraction_2e = new FractionImpl(" - 2 / -4");
-    FractionImpl test_fraction_2f = new FractionImpl(" -2 / 4");
-    FractionImpl test_fraction_4a = new FractionImpl(" 1 9 / 6 ");
-
 
     @Test
     void throwsException() {
@@ -33,44 +14,28 @@ class FractionImplTest {
         String zeroDivisionStr = "Cannot use ZERO as denominator!";
         String wrongArg = "Wrong argument passed to the method";
 
-        Exception thrown_1 = assertThrows(
-                ArithmeticException.class,
-                () -> new FractionImpl(3, 0));
+        Exception thrown_1 = assertThrows(ArithmeticException.class, () -> new FractionImpl(3, 0));
         assertEquals(zeroDivisionStr, thrown_1.getMessage());
 
-        Exception thrown_2 = assertThrows(
-                IllegalArgumentException.class,
-                () -> test_fraction_1.equals("13/3"));
+        Exception thrown_2 = assertThrows(IllegalArgumentException.class, () -> new FractionImpl(1, 2).equals("13/3"));
         assertEquals(wrongArg, thrown_2.getMessage());
 
-        Exception thrown_3 = assertThrows(
-                ArithmeticException.class,
-                () -> new FractionImpl(" 13 /- 0 "));
+        Exception thrown_3 = assertThrows(ArithmeticException.class, () -> new FractionImpl(" 13 /- 0 "));
         assertEquals(zeroDivisionStr, thrown_3.getMessage());
 
-        Exception thrown_4 = assertThrows(
-                IllegalArgumentException.class,
-                () -> new FractionImpl(" 13 /2 / 1 "));
+        Exception thrown_4 = assertThrows(IllegalArgumentException.class, () -> new FractionImpl(" 13 /2 / 1 "));
         assertEquals(wrongFormat, thrown_4.getMessage());
 
-        Exception thrown_5 = assertThrows(
-                IllegalArgumentException.class,
-                () -> new FractionImpl("-13,2 /1 "));
+        Exception thrown_5 = assertThrows(IllegalArgumentException.class, () -> new FractionImpl("-13,2 /1 "));
         assertEquals(wrongFormat, thrown_5.getMessage());
 
-        Exception thrown_6 = assertThrows(
-                IllegalArgumentException.class,
-                () -> new FractionImpl("-132, "));
+        Exception thrown_6 = assertThrows(IllegalArgumentException.class, () -> new FractionImpl("-132, "));
         assertEquals(wrongFormat, thrown_6.getMessage());
 
-        Exception thrown_7 = assertThrows(
-                IllegalArgumentException.class,
-                () -> new FractionImpl("s132/13 "));
+        Exception thrown_7 = assertThrows(IllegalArgumentException.class, () -> new FractionImpl("s132/13 "));
         assertEquals(wrongFormat, thrown_7.getMessage());
 
-        Exception thrown_8 = assertThrows(
-                NumberFormatException.class,
-                () -> new FractionImpl("132-/13 "));
+        Exception thrown_8 = assertThrows(NumberFormatException.class, () -> new FractionImpl("132-/13 "));
         assertEquals(wrongFormat, thrown_8.getMessage());
 
     }
@@ -78,45 +43,51 @@ class FractionImplTest {
 
     @Test
     void allowsVariousTypes() {
-        assertEquals(test_fraction_6, test_fraction_6a, "Whole number as int not accepted");
-        assertEquals(test_fraction_6, test_fraction_6b, "String single number not accepted");
-        assertEquals(test_fraction_2b, test_fraction_2d, "Fraction string not accepted");
-        assertEquals(test_fraction_7, test_fraction_7a, "Whole number ZERO not accepted");
-        assertEquals(test_fraction_2c, test_fraction_2e, "Negative string fraction white spaces not accepted");
-        assertEquals(test_fraction_4, test_fraction_4a, "Positive string white spaces not accepted");
+        assertEquals(new FractionImpl(12, 1), new FractionImpl(12), "Whole number as int not accepted");
+        assertEquals(new FractionImpl(12, 1), new FractionImpl("12"), "String single number not accepted");
+        assertEquals(new FractionImpl(1, 2), new FractionImpl("2/4"), "Fraction string not accepted");
+        assertEquals(new FractionImpl(0, 1), new FractionImpl(0), "Whole number ZERO not accepted");
+        assertEquals(new FractionImpl(-1, 2), new FractionImpl(" - 2 /-4"), "Negative string fraction white spaces not accepted");
+        assertEquals(new FractionImpl(19, 6), new FractionImpl(" 1 9 / 6 "), "Positive string white spaces not accepted");
+    }
+
+    @Test
+    void gcdMethod() {
+        assertEquals(new FractionImpl("2/4"), new FractionImpl(1, 2), "test for 2/4 failed");
+        assertEquals(new FractionImpl(-2, -4), new FractionImpl(-1, 2), "test for -2/4 failed");
     }
 
 
     @Test
     void add() {
-        FractionImpl add_1 = (FractionImpl) test_fraction_1.add(test_fraction_2);
-        FractionImpl add_2 = (FractionImpl) test_fraction_2.add(test_fraction_3);
-        FractionImpl add_3 = (FractionImpl) test_fraction_1a.add(test_fraction_1);
-        FractionImpl add_4 = (FractionImpl) test_fraction_1.add(test_fraction_2a);
-        FractionImpl add_5 = (FractionImpl) test_fraction_2a.add(test_fraction_1a);
+        Fraction add_1 = new FractionImpl(8, 3).add(new FractionImpl(2, 4));
+        Fraction add_2 = new FractionImpl(2, 4).add(new FractionImpl(13, 6));
+        Fraction add_3 = new FractionImpl(-8, -3).add(new FractionImpl(8, 3));
+        Fraction add_4 = new FractionImpl("8/3").add(new FractionImpl(-2, -4));
+        Fraction add_5 = new FractionImpl("-1/2").add(new FractionImpl(-8, -3));
 
-        assertEquals(test_fraction_4, add_1, " * Test for addition of positives 1 failed * ");
-        assertEquals(test_fraction_1, add_2, " * Test for addition of positives 2 failed * ");
-        assertEquals(test_fraction_7, add_3, " * Test for addition negative + positive failed were outcome 0* ");
+        assertEquals(new FractionImpl(19, 6), add_1, " * Test for addition of positives 1 failed * ");
+        assertEquals(new FractionImpl(8, 3), add_2, " * Test for addition of positives 2 failed * ");
+        assertEquals(new FractionImpl(0, 1), add_3, " * Test for addition negative + positive failed were outcome 0* ");
         assertEquals(new FractionImpl(13, 6), add_4, " * Test for addition positive + negative failed * ");
         assertEquals(new FractionImpl(-19, -6), add_5, " * Test for addition negative + negative failed * ");
     }
 
 
     @Test
-    void subtract() {
-        FractionImpl sub_1 = (FractionImpl) test_fraction_1.subtract(test_fraction_2); //
-        FractionImpl sub_2 = (FractionImpl) test_fraction_2.subtract(test_fraction_1);
-        FractionImpl sub_3 = (FractionImpl) test_fraction_3.subtract(test_fraction_2a);
-        FractionImpl sub_4 = (FractionImpl) test_fraction_2a.subtract(test_fraction_1a);
-        FractionImpl sub_5 = (FractionImpl) test_fraction_1a.subtract(test_fraction_3);
-        FractionImpl sub_6 = (FractionImpl) test_fraction_3a.subtract(test_fraction_2);
-        FractionImpl sub_7 = (FractionImpl) test_fraction_2c.subtract(test_fraction_2c);
+    void subtractAndLcmMethod() {
+        Fraction sub_1 = new FractionImpl(8, 3).subtract(new FractionImpl(2, 4)); //
+        Fraction sub_2 = new FractionImpl(2, 4).subtract(new FractionImpl(8, 3));
+        Fraction sub_3 = new FractionImpl(13, 6).subtract(new FractionImpl(-2, -4));
+        Fraction sub_4 = new FractionImpl(-2, -4).subtract(new FractionImpl(-8, -3));
+        Fraction sub_5 = new FractionImpl(-8, -3).subtract(new FractionImpl(13, 6));
+        Fraction sub_6 = new FractionImpl("-13/6").subtract(new FractionImpl(2, 4));
+        Fraction sub_7 = new FractionImpl("-1/2").subtract(new FractionImpl(-1, 2));
 
-        assertEquals(test_fraction_3, sub_1, " * Test for subtraction1 failed when result positive * ");
-        assertEquals(test_fraction_3a, sub_2, " * Test for subtraction2 failed when result negative * ");
-        assertEquals(test_fraction_1, sub_3, " * Test for subtraction negative from positive failed * ");
-        assertEquals(test_fraction_3, sub_4, " * Test for subtraction negative from negative failed * ");
+        assertEquals(new FractionImpl(13, 6), sub_1, " * Test for subtraction1 failed when result positive * ");
+        assertEquals(new FractionImpl(-13, -6), sub_2, " * Test for subtraction2 failed when result negative * ");
+        assertEquals(new FractionImpl(8, 3), sub_3, " * Test for subtraction negative from positive failed * ");
+        assertEquals(new FractionImpl(13, 6), sub_4, " * Test for subtraction negative from negative failed * ");
         assertEquals(new FractionImpl(-29, -6), sub_5, " * Test for subtraction positive from negative failed * ");
         assertEquals(new FractionImpl(-16, 6), sub_6, " * Test for positive from negative 2 failed * ");
         assertEquals(new FractionImpl(0, 1), sub_7, " * Test for negative from negative where result equals ZERO failed * ");
@@ -125,17 +96,17 @@ class FractionImplTest {
 
     @Test
     void multiply() {
-        FractionImpl mult_1 = (FractionImpl) test_fraction_1.multiply(test_fraction_2);
-        FractionImpl mult_2 = (FractionImpl) test_fraction_2.multiply(test_fraction_3);
-        FractionImpl mult_3 = (FractionImpl) test_fraction_3.multiply(test_fraction_2a);
-        FractionImpl mult_4 = (FractionImpl) test_fraction_1a.multiply(test_fraction_2a);
-        FractionImpl mult_5 = (FractionImpl) test_fraction_2a.multiply(test_fraction_1);
-        FractionImpl mult_6 = (FractionImpl) test_fraction_2c.multiply(test_fraction_2c);
+        Fraction mult_1 = new FractionImpl(8, 3).multiply(new FractionImpl(2, 4));
+        Fraction mult_2 = new FractionImpl(2, 4).multiply(new FractionImpl(13, 6));
+        Fraction mult_3 = new FractionImpl(13, 6).multiply(new FractionImpl(-2, -4));
+        Fraction mult_4 = new FractionImpl(-8, -3).multiply(new FractionImpl(-2, -4));
+        Fraction mult_5 = new FractionImpl("-2/4").multiply(new FractionImpl(8, 3));
+        Fraction mult_6 = new FractionImpl("-1/2").multiply(new FractionImpl(-1, 2));
 
-        assertEquals(test_fraction_5, mult_1, " * Test for multiplying positives 1 failed * ");
+        assertEquals(new FractionImpl(4, 3), mult_1, " * Test for multiplying positives 1 failed * ");
         assertEquals(new FractionImpl(13, 12), mult_2, " * Test for multiplying positives 2 failed * ");
         assertEquals(new FractionImpl(-13, -12), mult_3, " * Test for multiplying positive with negative failed * ");
-        assertEquals(test_fraction_5, mult_4, " * Test for multiplying negative with negative failed * ");
+        assertEquals(new FractionImpl(4, 3), mult_4, " * Test for multiplying negative with negative failed * ");
         assertEquals(new FractionImpl(-4, -3), mult_5, " * Test for multiplying negative and positive failed * ");
         assertEquals(new FractionImpl(1, 4), mult_6, " * Test for multiplying same value negative failed * ");
     }
@@ -143,11 +114,11 @@ class FractionImplTest {
 
     @Test
     void divide() {
-        FractionImpl div_1 = (FractionImpl) test_fraction_1.divide(test_fraction_2);
-        FractionImpl div_2 = (FractionImpl) test_fraction_2.divide(test_fraction_3);
-        FractionImpl div_3 = (FractionImpl) test_fraction_1.divide(test_fraction_1a);
-        FractionImpl div_4 = (FractionImpl) test_fraction_1a.divide(test_fraction_3);
-        FractionImpl div_5 = (FractionImpl) test_fraction_1a.divide(test_fraction_2a);
+        Fraction div_1 = new FractionImpl(8, 3).divide(new FractionImpl(2, 4));
+        Fraction div_2 = new FractionImpl(2, 4).divide(new FractionImpl(13, 6));
+        Fraction div_3 = new FractionImpl("8/3").divide(new FractionImpl(-8, -3));
+        Fraction div_4 = new FractionImpl(-8, -3).divide(new FractionImpl(13, 6));
+        Fraction div_5 = new FractionImpl("-8/3").divide(new FractionImpl(-2, -4));
 
         assertEquals(new FractionImpl(16, 3), div_1, " * Test for division positive/positive 1 failed * ");
         assertEquals(new FractionImpl(3, 13), div_2, " * Test for division positive/positive 2 failed * ");
@@ -159,36 +130,36 @@ class FractionImplTest {
 
     @Test
     void abs() {
-        FractionImpl abs_1 = (FractionImpl) test_fraction_1a.abs();
-        FractionImpl abs_2 = (FractionImpl) test_fraction_2a.abs();
-        FractionImpl abs_3 = (FractionImpl) test_fraction_1.abs();
+        Fraction abs_1 = new FractionImpl(-8, -3).abs();
+        Fraction abs_2 = new FractionImpl(-2, -4).abs();
+        Fraction abs_3 = new FractionImpl("8/3").abs();
 
-        assertEquals(test_fraction_1, abs_1, " * Test for negative abs1 failed * ");
-        assertEquals(test_fraction_2, abs_2, " * Test for negative abs2 failed * ");
-        assertEquals(test_fraction_1, abs_3, " * Test for positive abs2 failed * ");
+        assertEquals(new FractionImpl(8, 3), abs_1, " * Test for negative abs1 failed * ");
+        assertEquals(new FractionImpl(2, 4), abs_2, " * Test for negative abs2 failed * ");
+        assertEquals(new FractionImpl(8, 3), abs_3, " * Test for positive abs2 failed * ");
     }
 
 
     @Test
     void negate() {
-        FractionImpl neg_1 = (FractionImpl) test_fraction_1.negate();
-        FractionImpl neg_2 = (FractionImpl) test_fraction_2.negate();
-        FractionImpl neg_3 = (FractionImpl) test_fraction_1a.negate();
-        FractionImpl neg_4 = (FractionImpl) test_fraction_2a.negate();
+        Fraction neg_1 = new FractionImpl(8, 3).negate();
+        Fraction neg_2 = new FractionImpl(2, 4).negate();
+        Fraction neg_3 = new FractionImpl("-8/3").negate();
+        Fraction neg_4 = new FractionImpl("-2/4").negate();
 
-        assertEquals(test_fraction_1a, neg_1, " * Test for negate positive 1 failed * ");
-        assertEquals(test_fraction_2a, neg_2, " * Test for negate positive 2 failed * ");
-        assertEquals(test_fraction_1, neg_3, " * Test for negate negative 1 failed * ");
-        assertEquals(test_fraction_2, neg_4, " * Test for negate negative 2 failed * ");
+        assertEquals(new FractionImpl(-8, 3), neg_1, " * Test for negate positive 1 failed * ");
+        assertEquals(new FractionImpl(-1, 2), neg_2, " * Test for negate positive 2 failed * ");
+        assertEquals(new FractionImpl(8, 3), neg_3, " * Test for negate negative 1 failed * ");
+        assertEquals(new FractionImpl(1, 2), neg_4, " * Test for negate negative 2 failed * ");
     }
 
 
     @Test
     void testEquals() {
-        boolean eql_1 = test_fraction_1.equals(test_fraction_2);
-        boolean eql_2 = test_fraction_2.equals(test_fraction_2b);
-        boolean eql_3 = test_fraction_1.equals(test_fraction_1a);
-        boolean eql_4 = test_fraction_2.equals(test_fraction_2a);
+        boolean eql_1 = new FractionImpl(8, 3).equals(new FractionImpl(2, 4));
+        boolean eql_2 = new FractionImpl(2, 4).equals(new FractionImpl(1, 2));
+        boolean eql_3 = new FractionImpl("8/3").equals(new FractionImpl(-8, -3));
+        boolean eql_4 = new FractionImpl("2/4").equals(new FractionImpl(-2, -4));
 
         assertFalse(eql_1, " * Test for different values (false) failed * ");
         assertTrue(eql_2, "* Test for equals same value different fraction failed * ");
@@ -199,11 +170,11 @@ class FractionImplTest {
 
     @Test
     void inverse() {
-        FractionImpl inv_1 = (FractionImpl) test_fraction_1.inverse();
-        FractionImpl inv_2 = (FractionImpl) test_fraction_2.inverse();
-        FractionImpl inv_3 = (FractionImpl) test_fraction_1a.inverse();
-        FractionImpl inv_4 = (FractionImpl) test_fraction_2a.inverse();
-        FractionImpl inv_5 = (FractionImpl) test_fraction_2f.inverse();
+        Fraction inv_1 = new FractionImpl(8, 3).inverse();
+        Fraction inv_2 = new FractionImpl(2, 4).inverse();
+        Fraction inv_3 = new FractionImpl(-8, -3).inverse();
+        Fraction inv_4 = new FractionImpl(-2, -4).inverse();
+        Fraction inv_5 = new FractionImpl(" -2 / 4").inverse();
 
         assertEquals(new FractionImpl(3, 8), inv_1, " * Test for inverse positive 1 failed * ");
         assertEquals(new FractionImpl(2, 1), inv_2, " * Test for inverse positive 2 failed * ");
@@ -215,10 +186,10 @@ class FractionImplTest {
 
     @Test
     void compareTo() {
-        int cmpr_1 = test_fraction_1.compareTo(test_fraction_2);
-        int cmpr_2 = test_fraction_2.compareTo(test_fraction_3);
-        int cmpr_3 = test_fraction_2.compareTo(test_fraction_2b);
-        int cmpr_4 = test_fraction_2.compareTo(test_fraction_2e);
+        int cmpr_1 = new FractionImpl(8, 3).compareTo(new FractionImpl(2, 4));
+        int cmpr_2 = new FractionImpl(1, 2).compareTo(new FractionImpl(13, 6));
+        int cmpr_3 = new FractionImpl(2, 4).compareTo(new FractionImpl(1, 2));
+        int cmpr_4 = new FractionImpl("1/2").compareTo(new FractionImpl(" - 2 / -4"));
 
         assertEquals(1, cmpr_1, " * Test for comparing higher failed * ");
         assertEquals(-1, cmpr_2, " * Test for comparing lower failed * ");
@@ -229,13 +200,12 @@ class FractionImplTest {
 
     @Test
     void testToString() {
-        String to_str1 = test_fraction_1.toString();
-        String to_str2 = test_fraction_1a.toString();
-        String str_1 = "8/3";
-        String str_2 = "-8/3";
+        String to_str1 = new FractionImpl(8, 3).toString();
+        String to_str2 = new FractionImpl(-8, -3).toString();
 
-        assertEquals(str_1, to_str1, " * Test for to string positive failed * ");
-        assertEquals(str_2, to_str2, " * Test to string negative failed * ");
-        assertEquals("12", test_fraction_6.toString(), " * Test to string where 1 failed * ");
+
+        assertEquals("8/3", to_str1, " * Test for to string positive failed * ");
+        assertEquals("-8/3", to_str2, " * Test to string negative failed * ");
+        assertEquals("12", new FractionImpl(12, 1).toString(), " * Test to string where 1 value passed failed * ");
     }
 }

@@ -7,7 +7,7 @@ public class FractionImpl implements Fraction {
 
 
     public FractionImpl(int numerator, int denominator) {
-        // check for precondition
+        // check for precondition - arithmetic exception thrown if ZERO passed as denominator
         if (denominator == 0) zeroDivisionException();
 
             // normalize and create fraction when positive or negative parameter's values
@@ -44,12 +44,12 @@ public class FractionImpl implements Fraction {
         if (arrOfStr.length > 2 || !String.join("", arrOfStr).matches(regexStr)) {
             wrongFormatException();
         } else if (arrOfStr.length > 1) {
-            // obtain integer values and check there is no ZERO value set as a denominator, throw exception message of wrong parameter passed
+            // obtain integer values for numerator and denominator; if ZERO value set as a denominator throw arithmetic exception
             try {
                 int n = Integer.parseInt(arrOfStr[0]);
                 int d = Integer.parseInt(arrOfStr[1]);
                 if (d == 0) zeroDivisionException();
-                // normalize and create when two correct values - catch exception
+                    // normalize and create when two correct values - catch exception if wrong string format
                 else {
                     int gcd = findGCD(n, d);
                     this.numerator = n / gcd;
@@ -157,7 +157,7 @@ public class FractionImpl implements Fraction {
     @Override
     public boolean equals(Object obj) {
         boolean result = false;
-        // check if instance of Fraction/ correct argument passed
+        // check if instance of Fraction/ correct argument passed or throw exception for illegal argument
         if (!(obj instanceof Fraction)) wrongArgumentException();
         else {
             // compare both objects
@@ -213,11 +213,11 @@ public class FractionImpl implements Fraction {
         FractionImpl fr = (FractionImpl) f;
         int result = 0;
 
-        // calculate double values of fraction
-        double this_ = (this.getNumerator() * 1.0) / this.getDenominator();
-        double other_ = (fr.getNumerator() * 1.0) / fr.getDenominator();
+        // calculate new numerator's value
+        int this_ = this.numerator * fr.denominator;
+        int other_ = this.denominator * fr.numerator;
 
-        // compare both fraction's values
+        // compare both fraction numerator's values
         if (this_ < other_) result = -1;
         else if (this_ > other_) result = 1;
 
@@ -241,8 +241,8 @@ public class FractionImpl implements Fraction {
     @Override
     public String toString() {
         // obtain numerator and denominator values of fraction
-        int n = this.getNumerator();
-        int d = this.getDenominator();
+        int n = this.numerator;
+        int d = this.denominator;
 
         // return whole number if denominator is equal to ONE, include minus if negative
         if (d == 1) return String.valueOf(n);
@@ -290,22 +290,6 @@ public class FractionImpl implements Fraction {
      */
     private void wrongArgumentException() {
         throw new IllegalArgumentException("Wrong argument passed to the method");
-    }
-
-
-    /**
-     * no parameter returns integer value of the denominator
-     */
-    private int getDenominator() {
-        return denominator;
-    }
-
-
-    /**
-     * no parameter returns integer value of the numerator
-     */
-    private int getNumerator() {
-        return numerator;
     }
 
 
